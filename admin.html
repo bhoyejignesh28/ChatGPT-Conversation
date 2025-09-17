@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilignsCenter Admin Console</title>
+    <link rel="stylesheet" href="assets/style.css" />
+    <script defer src="assets/storage.js"></script>
+    <script defer src="assets/admin.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <div class="brand-logo">FC</div>
+        <div>
+          <h1>FilignsCenter Admin Console</h1>
+          <p>
+            Manage user access, post sizes, categories and templates. Uploaded
+            templates instantly appear in the user portal category-wise.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="adminAuth" class="card auth-card">
+        <div>
+          <h2>Administrator login</h2>
+          <p class="helper-text">Default credentials: <strong>admin / admin123</strong></p>
+        </div>
+        <form id="adminLoginForm" class="form-grid">
+          <div class="form-row">
+            <label for="adminUser">User ID</label>
+            <input id="adminUser" name="adminUser" placeholder="admin" required />
+          </div>
+          <div class="form-row">
+            <label for="adminPass">Password</label>
+            <input id="adminPass" name="adminPass" type="password" placeholder="••••••" required />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+        <p class="helper-text">Only admin roles can access this console.</p>
+      </section>
+
+      <section id="adminApp" class="hidden">
+        <article class="card" id="adminSummary">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+            <div>
+              <h2>Overview</h2>
+              <p class="muted">
+                Track total users, templates and categories. Changes auto-save to
+                local storage for this prototype.
+              </p>
+            </div>
+            <button type="button" class="secondary" id="adminLogoutBtn">Log out</button>
+          </div>
+          <div class="template-list" id="statsGrid"></div>
+        </article>
+
+        <article class="card">
+          <h2>User management</h2>
+          <p class="helper-text">
+            Create user IDs and passwords. Share credentials with clients so they
+            can login to the creator portal.
+          </p>
+          <form id="userForm" class="form-grid two">
+            <div class="form-row">
+              <label for="newUserId">User ID</label>
+              <input id="newUserId" placeholder="unique id" required />
+            </div>
+            <div class="form-row">
+              <label for="newUserName">Display name</label>
+              <input id="newUserName" placeholder="Client name" />
+            </div>
+            <div class="form-row">
+              <label for="newUserPass">Password</label>
+              <div class="control-row">
+                <input id="newUserPass" type="text" placeholder="Generate strong password" required />
+                <button type="button" class="secondary" id="generatePassBtn">Generate</button>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="newUserEmail">Default email</label>
+              <input id="newUserEmail" type="email" placeholder="client@email.com" />
+            </div>
+            <div class="form-row">
+              <label for="newUserPhone">Default phone</label>
+              <input id="newUserPhone" placeholder="+91 90000 00000" />
+            </div>
+            <div class="form-row">
+              <label for="newUserTagline">Default tagline</label>
+              <input id="newUserTagline" placeholder="Optional tagline" />
+            </div>
+            <div class="form-row">
+              <label for="newUserAddress">Default address</label>
+              <textarea id="newUserAddress" rows="2" placeholder="Business street, city"></textarea>
+            </div>
+            <div class="form-row">
+              <label>Brand colors</label>
+              <div class="control-row">
+                <input id="newUserColor1" type="color" value="#1e88e5" />
+                <input id="newUserColor2" type="color" value="#f9a825" />
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="newUserLogo">Logo (optional)</label>
+              <input id="newUserLogo" type="file" accept="image/*" />
+            </div>
+            <div class="form-row" style="align-self: end;">
+              <button type="submit">Create user</button>
+            </div>
+          </form>
+          <div id="userList" style="margin-top: 24px; display: grid; gap: 12px;"></div>
+        </article>
+
+        <article class="card">
+          <h2>Post size library</h2>
+          <form id="sizeForm" class="form-grid two">
+            <div class="form-row">
+              <label for="sizePlatform">Platform</label>
+              <input id="sizePlatform" placeholder="Instagram" required />
+            </div>
+            <div class="form-row">
+              <label for="sizeLabel">Label</label>
+              <input id="sizeLabel" placeholder="Story" required />
+            </div>
+            <div class="form-row">
+              <label for="sizeWidth">Width (px)</label>
+              <input id="sizeWidth" type="number" min="100" required />
+            </div>
+            <div class="form-row">
+              <label for="sizeHeight">Height (px)</label>
+              <input id="sizeHeight" type="number" min="100" required />
+            </div>
+            <div class="form-row" style="align-self: end;">
+              <button type="submit">Add size</button>
+            </div>
+          </form>
+          <div id="sizeList" style="margin-top: 20px; display: grid; gap: 12px;"></div>
+        </article>
+
+        <article class="card">
+          <h2>Categories</h2>
+          <form id="categoryForm" class="form-grid two">
+            <div class="form-row">
+              <label for="categoryName">Name</label>
+              <input id="categoryName" placeholder="Instagram Stories" required />
+            </div>
+            <div class="form-row">
+              <label for="categoryDescription">Description</label>
+              <textarea id="categoryDescription" rows="2" placeholder="Short description"></textarea>
+            </div>
+            <div class="form-row">
+              <label>Supported post sizes</label>
+              <div id="categorySizeOptions" style="display: grid; gap: 8px;"></div>
+            </div>
+            <div class="form-row" style="align-self: end;">
+              <button type="submit">Create category</button>
+            </div>
+          </form>
+          <div id="categoryList" style="margin-top: 20px; display: grid; gap: 12px;"></div>
+        </article>
+
+        <article class="card">
+          <h2>Template builder</h2>
+          <p class="helper-text">
+            Paste HTML with <code>data-placeholder</code> attributes for auto-fill.
+            Use quick insert buttons to drop ready placeholders.
+          </p>
+          <form id="templateForm" class="form-grid">
+            <div class="form-grid two">
+              <div class="form-row">
+                <label for="templateTitle">Template title</label>
+                <input id="templateTitle" placeholder="Diwali offer" required />
+              </div>
+              <div class="form-row">
+                <label for="templateCategory">Category</label>
+                <select id="templateCategory" required></select>
+              </div>
+              <div class="form-row">
+                <label for="templateSize">Post size</label>
+                <select id="templateSize" required></select>
+              </div>
+              <div class="form-row">
+                <label for="templateAccent">Accent color</label>
+                <input id="templateAccent" type="color" value="#ff6b6b" />
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="templateFonts">Fonts (comma separated)</label>
+              <input id="templateFonts" placeholder="Poppins, Nunito, Inter" />
+            </div>
+            <div class="form-row">
+              <label for="templateDescription">Short description</label>
+              <textarea id="templateDescription" rows="2" placeholder="Where should this template be used?"></textarea>
+            </div>
+            <div class="form-row">
+              <label>Quick placeholders</label>
+              <div class="control-row" id="placeholderButtons"></div>
+            </div>
+            <div class="form-row">
+              <label for="templateMarkup">Template HTML</label>
+              <textarea id="templateMarkup" rows="10" placeholder="Paste HTML markup with placeholders"></textarea>
+              <p class="helper-text">
+                Example: <code>&lt;h2 data-placeholder="name" data-editable="true"&gt;Brand&lt;/h2&gt;</code>
+              </p>
+            </div>
+            <div class="profile-actions">
+              <button type="button" class="secondary" id="loadBaseTemplateBtn">Load sample layout</button>
+              <button type="submit" id="saveTemplateBtn">Save template</button>
+            </div>
+          </form>
+          <div style="margin-top: 24px; display: grid; gap: 16px;">
+            <div>
+              <h3 style="margin: 0 0 8px 0;">Live preview</h3>
+              <div id="templatePreview" style="background: #f3f4f6; padding: 24px; border-radius: 18px; min-height: 280px; border: 1px dashed var(--border);"></div>
+            </div>
+            <div>
+              <h3 style="margin: 0 0 8px 0;">Existing templates</h3>
+              <div id="templateListAdmin" style="display: grid; gap: 12px;"></div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <div id="adminToast" class="toast"></div>
+  </body>
+</html>

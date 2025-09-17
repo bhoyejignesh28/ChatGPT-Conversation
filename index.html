@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilignsCenter Creator Portal</title>
+    <link rel="stylesheet" href="assets/style.css" />
+    <script defer src="assets/storage.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script defer src="assets/app.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <div class="brand-logo">FC</div>
+        <div>
+          <h1>FilignsCenter Template Studio</h1>
+          <p>
+            Category-wise templates, automatic placeholder mapping, and full design
+            control tailored for every FilignsCenter customer.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section id="authSection" class="card auth-card">
+        <div>
+          <h2>Login to your workspace</h2>
+          <p class="helper-text">
+            Use the credentials shared by your FilignsCenter admin. Demo account:
+            <strong>demo / demo123</strong>
+          </p>
+        </div>
+        <form id="loginForm" class="form-grid">
+          <div class="form-row">
+            <label for="loginUser">User ID</label>
+            <input id="loginUser" name="loginUser" placeholder="e.g. filigns_user" required />
+          </div>
+          <div class="form-row">
+            <label for="loginPass">Password</label>
+            <input id="loginPass" name="loginPass" type="password" placeholder="••••••" required />
+          </div>
+          <button type="submit">Sign in</button>
+        </form>
+        <p class="helper-text">
+          Admins can manage credentials, categories and templates from the
+          <a href="admin.html">admin panel</a>.
+        </p>
+      </section>
+
+      <section id="appSection" class="hidden">
+        <div class="dashboard-grid">
+          <aside class="card profile-card">
+            <div class="profile-header">
+              <h2>Brand profile</h2>
+              <p class="muted">
+                Update details once and they will auto-fill in every template.
+              </p>
+            </div>
+            <form id="profileForm" class="form-grid">
+              <div class="form-row">
+                <label for="profileName">Brand / Contact name</label>
+                <input id="profileName" name="profileName" placeholder="Filigns Center" />
+              </div>
+              <div class="form-grid two">
+                <div class="form-row">
+                  <label for="profileEmail">Email</label>
+                  <input id="profileEmail" name="profileEmail" type="email" placeholder="hello@brand.com" />
+                </div>
+                <div class="form-row">
+                  <label for="profilePhone">Phone</label>
+                  <input id="profilePhone" name="profilePhone" placeholder="+91 90000 00000" />
+                </div>
+              </div>
+              <div class="form-row">
+                <label for="profileTagline">Tagline</label>
+                <input id="profileTagline" name="profileTagline" placeholder="Add your punchline" />
+              </div>
+              <div class="form-row">
+                <label for="profileAddress">Address</label>
+                <textarea id="profileAddress" name="profileAddress" rows="3" placeholder="Business street, city"></textarea>
+              </div>
+              <div class="form-grid two">
+                <div class="form-row">
+                  <label for="brandPrimary">Brand color (primary)</label>
+                  <input id="brandPrimary" name="brandPrimary" type="color" />
+                </div>
+                <div class="form-row">
+                  <label for="brandSecondary">Brand color (secondary)</label>
+                  <input id="brandSecondary" name="brandSecondary" type="color" />
+                </div>
+              </div>
+              <div class="form-row">
+                <label for="logoUpload">Upload / Replace logo</label>
+                <input id="logoUpload" type="file" accept="image/*" />
+                <p class="helper-text">SVG or PNG recommended • 512px square</p>
+              </div>
+              <div class="profile-actions">
+                <button type="button" id="saveProfileBtn">Save profile</button>
+                <button type="button" class="secondary" id="resetProfileBtn">Reset to defaults</button>
+              </div>
+            </form>
+            <div class="brand-colors">
+              <div class="swatch" id="swatchPrimary"></div>
+              <div class="swatch" id="swatchSecondary"></div>
+              <span class="muted">Live preview colors</span>
+            </div>
+            <div class="profile-actions" style="margin-top: 18px;">
+              <button type="button" class="secondary" id="logoutBtn">Log out</button>
+            </div>
+          </aside>
+
+          <section class="template-panel">
+            <article class="card">
+              <h2>Template gallery</h2>
+              <div class="template-filters">
+                <div class="pill active" data-filter="all" id="filterAll">All categories</div>
+                <div id="categoryFilters" class="pill-group"></div>
+                <select id="sizeFilter">
+                  <option value="all">All post sizes</option>
+                </select>
+                <input id="searchTemplate" placeholder="Search template titles" />
+              </div>
+              <div class="template-list" id="templateList"></div>
+            </article>
+
+            <article class="card">
+              <h2>My saved designs</h2>
+              <p class="muted">
+                Every saved design stores your edits. Re-open to continue customizing
+                or download again anytime.
+              </p>
+              <div id="savedDesignsList"></div>
+            </article>
+
+            <article class="card">
+              <h2>Editor &amp; preview</h2>
+              <div id="canvasStage">
+                <p class="muted">Select a template from the gallery to start editing.</p>
+              </div>
+              <div class="editor-controls" id="editorControls">
+                <div class="control">
+                  <label for="fontFamilyControl">Font family</label>
+                  <select id="fontFamilyControl"></select>
+                </div>
+                <div class="control">
+                  <label for="fontSizeControl">Font size <span id="fontSizeLabel"></span></label>
+                  <input type="range" id="fontSizeControl" min="12" max="96" value="32" />
+                </div>
+                <div class="control">
+                  <label for="fontColorControl">Font color</label>
+                  <input type="color" id="fontColorControl" value="#111827" />
+                </div>
+                <div class="control">
+                  <label>Weight</label>
+                  <div class="control-row">
+                    <button type="button" class="icon" id="boldBtn">B</button>
+                    <button type="button" class="icon" id="italicBtn">I</button>
+                  </div>
+                </div>
+                <div class="control">
+                  <label>Alignment</label>
+                  <div class="control-row">
+                    <button type="button" class="icon" data-align="left">Left</button>
+                    <button type="button" class="icon" data-align="center">Center</button>
+                    <button type="button" class="icon" data-align="right">Right</button>
+                  </div>
+                </div>
+                <div class="control" id="imageControl">
+                  <label for="elementImageUpload">Replace selected image</label>
+                  <input type="file" id="elementImageUpload" accept="image/*" />
+                </div>
+                <div class="control">
+                  <label>Quick actions</label>
+                  <div class="control-row">
+                    <button type="button" class="secondary" id="resetTemplateBtn">Reapply profile</button>
+                    <button type="button" id="saveDraftBtn">Save design</button>
+                    <button type="button" id="exportBtn">Download PNG</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <div id="toast" class="toast"></div>
+  </body>
+</html>
