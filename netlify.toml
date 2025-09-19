@@ -1,0 +1,35 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["bcryptjs", "@netlify/blobs", "jsonwebtoken", "zod"]
+
+[[redirects]]
+  from = "/api/users/*/status"
+  to = "/.netlify/functions/users-status?splat=:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/users/*/rename"
+  to = "/.netlify/functions/users-rename?splat=:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/templates/*/base"
+  to = "/.netlify/functions/templates-base?splat=:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/renders/*"
+  to = "/.netlify/functions/renders?splat=:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

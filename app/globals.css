@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-background: #0f172a;
+  --color-foreground: #e2e8f0;
+}
+
+.light {
+  --color-background: #f8fafc;
+  --color-foreground: #0f172a;
+}
+
+a {
+  @apply text-primary underline;
+}
+
+body {
+  @apply bg-background text-foreground min-h-screen antialiased;
+  font-family: 'Inter', sans-serif;
+}
+
+button {
+  @apply rounded-2xl font-medium;
+}
