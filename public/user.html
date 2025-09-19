@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilingsCenter — User</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <div class="toast-container" id="toast-container"></div>
+    <header>
+      <h1>FilingsCenter Workspace</h1>
+      <p>Personalize filings, preview live, and export crisp PNGs.</p>
+    </header>
+    <main>
+      <section class="panel" id="user-auth-panel">
+        <h2>Authentication</h2>
+        <div class="small-grid">
+          <form id="user-login-form">
+            <h3>Log In</h3>
+            <div class="form-row">
+              <label for="user-identity">Email or Username</label>
+              <input type="text" id="user-identity" name="identity" required />
+            </div>
+            <div class="form-row">
+              <label for="user-password">Password</label>
+              <input type="password" id="user-password" name="password" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Log In</button>
+          </form>
+          <div>
+            <h3>Session</h3>
+            <p id="user-session-info">Not signed in.</p>
+            <button class="btn btn-outline" id="user-logout-btn" type="button">Log Out</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="user-dashboard" hidden>
+        <h2>Profile</h2>
+        <form id="profile-form">
+          <div class="small-grid">
+            <div class="form-row">
+              <label for="profile-name">Name</label>
+              <input type="text" id="profile-name" name="name" />
+            </div>
+            <div class="form-row">
+              <label for="profile-phone">Phone</label>
+              <input type="text" id="profile-phone" name="phone" />
+            </div>
+            <div class="form-row">
+              <label for="profile-email">Email</label>
+              <input type="email" id="profile-email" name="email" />
+            </div>
+            <div class="form-row">
+              <label for="profile-address">Address</label>
+              <input type="text" id="profile-address" name="address" />
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="profile-custom">Custom Text</label>
+            <input type="text" id="profile-custom" name="custom" />
+          </div>
+          <div class="form-row">
+            <label for="profile-logo">Logo Upload</label>
+            <input type="file" id="profile-logo" accept="image/png,image/jpeg" />
+          </div>
+          <button class="btn btn-outline" type="submit">Save Profile</button>
+        </form>
+      </section>
+
+      <section class="panel" id="template-list" hidden>
+        <h2>Templates</h2>
+        <div class="small-grid">
+          <div>
+            <label for="filter-category">Category</label>
+            <select id="filter-category"></select>
+          </div>
+          <div>
+            <label for="filter-size">Size</label>
+            <select id="filter-size"></select>
+          </div>
+        </div>
+        <div id="templates-container" class="list" style="margin-top: 1rem"></div>
+      </section>
+
+      <section class="panel" id="user-editor" hidden>
+        <div class="toolbar" style="margin-bottom: 1rem">
+          <button class="btn btn-outline" id="user-close-editor">Back</button>
+          <button class="btn btn-primary" id="user-export">Export PNG</button>
+        </div>
+        <div class="layout">
+          <div class="panel panel-sticky">
+            <h3>Layer Controls</h3>
+            <form id="user-layer-form"></form>
+          </div>
+          <div class="panel canvas-wrapper">
+            <h3>Preview @25%</h3>
+            <canvas id="user-canvas" width="600" height="400"></canvas>
+          </div>
+          <div class="panel panel-sticky">
+            <h3>Layers</h3>
+            <div id="user-layers" class="layer-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="/public/js/user.js"></script>
+  </body>
+</html>

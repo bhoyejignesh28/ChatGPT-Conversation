@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilingsCenter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/public/styles.css" />
+  </head>
+  <body>
+    <div class="toast-container" id="toast-container"></div>
+    <header>
+      <h1>FilingsCenter</h1>
+      <p class="badge">Design. Personalize. Deliver.</p>
+    </header>
+    <main>
+      <section class="panel">
+        <h2>Welcome</h2>
+        <p>
+          FilingsCenter helps administrators craft reusable filing templates and empowers
+          users to personalize, preview, and export sharp PNG renderings instantly.
+        </p>
+        <div class="small-grid">
+          <a class="btn btn-primary" href="/public/admin.html">Admin Panel</a>
+          <a class="btn btn-outline" href="/public/user.html">User Workspace</a>
+        </div>
+      </section>
+      <section class="panel" style="margin-top: 1.5rem">
+        <h3>Getting Started</h3>
+        <ol>
+          <li>Deploy to Netlify and configure the <code>JWT_SECRET</code>.</li>
+          <li>Seed the first administrator via the Admin panel.</li>
+          <li>Create categories, sizes, and templates with placeholder layers.</li>
+          <li>Invite users and keep inactive accounts from logging in.</li>
+        </ol>
+      </section>
+    </main>
+  </body>
+</html>
