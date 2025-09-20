@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { readJSON, writeJSON, listKeys, deleteBlob, getSignedUrl } from './store.js';
+import { readJSON, writeJSON, listKeys, deleteBlob, getSignedUrl } from './store';
 import type { CategoryRecord, SizeRecord, TemplateRecord, RenderRecord } from './types';
 
 const CATEGORY_PREFIX = 'categories/';

@@ -1,8 +1,8 @@
 import type { HandlerEvent } from '@netlify/functions';
 import jwt from 'jsonwebtoken';
-import { getUserById } from './users.js';
+import { getUserById } from './users';
 import type { UserRecord, UserRole } from './types';
-import { getClientIp } from './http.js';
+import { getClientIp } from './http';
 
 const COOKIE_NAME = 'fc_session';
 const TOKEN_TTL_SECONDS = 60 * 60 * 24 * 7;

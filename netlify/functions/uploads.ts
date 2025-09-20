@@ -1,9 +1,9 @@
 import type { Handler } from '@netlify/functions';
-import { errorResponse, jsonResponse, getPathSegments } from './_lib/http.js';
-import { getSession } from './_lib/auth.js';
-import { parseMultipart } from './_lib/multipart.js';
-import { setBlob, getSignedUrl } from './_lib/store.js';
-import { updateUserProfile } from './_lib/users.js';
+import { errorResponse, jsonResponse, getPathSegments } from './_lib/http';
+import { getSession } from './_lib/auth';
+import { parseMultipart } from './_lib/multipart';
+import { setBlob, getSignedUrl } from './_lib/store';
+import { updateUserProfile } from './_lib/users';
 
 const handler: Handler = async (event) => {
   const method = event.httpMethod.toUpperCase();

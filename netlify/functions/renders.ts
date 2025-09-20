@@ -1,10 +1,10 @@
 import type { Handler } from '@netlify/functions';
 import { z } from 'zod';
-import { jsonResponse, errorResponse, parseJSONBody, getPathSegments } from './_lib/http.js';
-import { getSession } from './_lib/auth.js';
-import { listRendersByUser, getRender, saveRender } from './_lib/collections.js';
+import { jsonResponse, errorResponse, parseJSONBody, getPathSegments } from './_lib/http';
+import { getSession } from './_lib/auth';
+import { listRendersByUser, getRender, saveRender } from './_lib/collections';
 import { nanoid } from 'nanoid';
-import { setBlob, getSignedUrl } from './_lib/store.js';
+import { setBlob, getSignedUrl } from './_lib/store';
 
 const renderSchema = z.object({
   templateId: z.string(),

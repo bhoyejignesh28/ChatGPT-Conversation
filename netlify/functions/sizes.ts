@@ -1,8 +1,8 @@
 import type { Handler } from '@netlify/functions';
 import { z } from 'zod';
-import { jsonResponse, errorResponse, parseJSONBody, getPathSegments } from './_lib/http.js';
-import { getSession, enforceRole } from './_lib/auth.js';
-import { listSizes, createSize, updateSizeRecord, deleteSizeRecord } from './_lib/collections.js';
+import { jsonResponse, errorResponse, parseJSONBody, getPathSegments } from './_lib/http';
+import { getSession, enforceRole } from './_lib/auth';
+import { listSizes, createSize, updateSizeRecord, deleteSizeRecord } from './_lib/collections';
 
 const sizeSchema = z.object({
   name: z.string().min(2),

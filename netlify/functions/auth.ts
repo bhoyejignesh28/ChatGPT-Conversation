@@ -1,6 +1,6 @@
 import type { Handler } from '@netlify/functions';
 import { z } from 'zod';
-import { jsonResponse, errorResponse, parseJSONBody, getPathSegments } from './_lib/http.js';
+import { jsonResponse, errorResponse, parseJSONBody, getPathSegments } from './_lib/http';
 import {
   createSession,
   createCookie,
@@ -8,13 +8,13 @@ import {
   getSession,
   enforceRole,
   checkRateLimit
-} from './_lib/auth.js';
+} from './_lib/auth';
 import {
   createUser,
   getUserByEmailOrUsername,
   verifyPassword,
   countAdmins
-} from './_lib/users.js';
+} from './_lib/users';
 
 const credentialsSchema = z.object({
   email: z.string().email(),

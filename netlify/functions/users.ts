@@ -1,8 +1,8 @@
 import type { Handler } from '@netlify/functions';
 import { z } from 'zod';
-import { jsonResponse, errorResponse, parseJSONBody, getPathSegments } from './_lib/http.js';
-import { getSession, enforceRole } from './_lib/auth.js';
-import { listUsers, updateUser, deleteUser, updateUserProfile } from './_lib/users.js';
+import { jsonResponse, errorResponse, parseJSONBody, getPathSegments } from './_lib/http';
+import { getSession, enforceRole } from './_lib/auth';
+import { listUsers, updateUser, deleteUser, updateUserProfile } from './_lib/users';
 
 const statusSchema = z.object({ status: z.enum(['active', 'inactive']) });
 const renameSchema = z.object({ username: z.string().min(3) });

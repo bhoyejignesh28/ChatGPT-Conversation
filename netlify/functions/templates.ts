@@ -5,17 +5,17 @@ import {
   errorResponse,
   parseJSONBody,
   getPathSegments
-} from './_lib/http.js';
-import { getSession, enforceRole } from './_lib/auth.js';
+} from './_lib/http';
+import { getSession, enforceRole } from './_lib/auth';
 import {
   listTemplates,
   createTemplate,
   updateTemplateRecord,
   getTemplate,
   deleteTemplateRecord
-} from './_lib/collections.js';
-import { parseMultipart } from './_lib/multipart.js';
-import { setBlob, getSignedUrl } from './_lib/store.js';
+} from './_lib/collections';
+import { parseMultipart } from './_lib/multipart';
+import { setBlob, getSignedUrl } from './_lib/store';
 
 const createSchema = z.object({
   name: z.string().min(2),

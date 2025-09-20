@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import { nanoid } from 'nanoid';
-import { readJSON, writeJSON, listKeys, deleteBlob } from './store.js';
+import { readJSON, writeJSON, listKeys, deleteBlob } from './store';
 import type { UserRecord, UserRole, UserStatus, UserProfile } from './types';
 
 const USERS_PREFIX = 'users/';
