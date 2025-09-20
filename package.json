@@ -1,0 +1,13 @@
+{
+  "name": "filingscenter-admin",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "echo Build ready"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.8.0"
+  }
+}

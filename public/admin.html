@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FilingsCenter — Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="toast-container" id="toast-container"></div>
+    <header>
+      <h1>FilingsCenter Admin</h1>
+      <p>Manage accounts, templates, and global resources.</p>
+    </header>
+    <main>
+      <section class="panel" id="auth-panel">
+        <h2>Authentication</h2>
+        <div class="small-grid">
+          <form id="seed-admin-form">
+            <h3>Seed Admin</h3>
+            <p class="muted">Run once to create the first administrator.</p>
+            <div class="form-row">
+              <label for="seed-email">Email</label>
+              <input type="email" id="seed-email" name="email" required />
+            </div>
+            <div class="form-row">
+              <label for="seed-username">Username</label>
+              <input type="text" id="seed-username" name="username" required />
+            </div>
+            <div class="form-row">
+              <label for="seed-password">Password</label>
+              <input type="password" id="seed-password" name="password" required />
+            </div>
+            <button class="btn btn-outline" type="submit">Seed Admin</button>
+          </form>
+          <form id="login-form">
+            <h3>Admin Login</h3>
+            <div class="form-row">
+              <label for="login-identity">Email or Username</label>
+              <input type="text" id="login-identity" name="identity" required />
+            </div>
+            <div class="form-row">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" name="password" required />
+            </div>
+            <button class="btn btn-primary" type="submit">Log In</button>
+          </form>
+          <div>
+            <h3>Session</h3>
+            <p id="session-info">Not signed in.</p>
+            <div class="toolbar">
+              <button class="btn btn-outline" id="logout-btn" type="button">Log Out</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="admin-dashboard" hidden>
+        <div class="tab-bar">
+          <button class="btn btn-outline" data-tab="users">Users</button>
+          <button class="btn btn-outline" data-tab="categories">Categories</button>
+          <button class="btn btn-outline" data-tab="sizes">Sizes</button>
+          <button class="btn btn-outline" data-tab="templates">Templates</button>
+          <button class="btn btn-outline" data-tab="settings">Settings</button>
+        </div>
+        <div id="tab-content"></div>
+      </section>
+
+      <section class="panel" id="template-editor" hidden>
+        <div class="toolbar" style="margin-bottom: 1rem">
+          <button class="btn btn-outline" id="close-editor">Back</button>
+          <button class="btn btn-primary" id="save-template">Save Template</button>
+        </div>
+        <div class="layout">
+          <div class="panel panel-sticky">
+            <h3>Template Properties</h3>
+            <form id="placeholder-form"></form>
+            <div class="toolbar" style="margin-top: 1rem">
+              <button class="btn btn-outline" id="add-text" type="button">Add Text</button>
+              <button class="btn btn-outline" id="add-logo" type="button">Add Logo</button>
+              <button class="btn btn-outline" id="delete-layer" type="button">Delete Layer</button>
+            </div>
+          </div>
+          <div class="panel canvas-wrapper">
+            <h3>Preview @25%</h3>
+            <canvas id="template-canvas" width="600" height="400"></canvas>
+          </div>
+          <div class="panel panel-sticky">
+            <h3>Layers</h3>
+            <div id="layers" class="layer-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./js/admin.js"></script>
+  </body>
+</html>
