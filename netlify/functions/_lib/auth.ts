@@ -1,11 +1,14 @@
 import type { HandlerEvent } from '@netlify/functions';
+import { randomBytes } from 'node:crypto';
 import jwt from 'jsonwebtoken';
 import { getUserById } from './users';
 import type { UserRecord, UserRole } from './types';
 import { getClientIp } from './http';
+import { readJSON, writeJSON } from './store';
 
 const COOKIE_NAME = 'fc_session';
 const TOKEN_TTL_SECONDS = 60 * 60 * 24 * 7;
+const SECRET_BLOB_KEY = 'config/auth-secret.json';
 
 interface TokenPayload {
   uid: string;
@@ -14,10 +17,40 @@ interface TokenPayload {
 
 const rateMap = new Map<string, { count: number; reset: number }>();
 
-function getSecret() {
-  const secret = process.env.JWT_SECRET;
-  if (!secret) throw new Error('JWT_SECRET not configured');
-  return secret;
+let cachedSecret: string | null = process.env.JWT_SECRET ?? null;
+let secretPromise: Promise<string> | null = null;
+
+async function loadPersistedSecret(): Promise<string> {
+  const stored = await readJSON<{ secret?: string }>(SECRET_BLOB_KEY);
+  if (stored?.secret) {
+    return stored.secret;
+  }
+  const generated = randomBytes(48).toString('hex');
+  await writeJSON(SECRET_BLOB_KEY, {
+    secret: generated,
+    createdAt: new Date().toISOString()
+  });
+  return generated;
+}
+
+async function getSecret(): Promise<string> {
+  if (process.env.JWT_SECRET) {
+    cachedSecret = process.env.JWT_SECRET;
+    return cachedSecret;
+  }
+  if (cachedSecret) return cachedSecret;
+  if (!secretPromise) {
+    secretPromise = loadPersistedSecret()
+      .then((value) => {
+        cachedSecret = value;
+        return value;
+      })
+      .catch((err) => {
+        secretPromise = null;
+        throw err;
+      });
+  }
+  return secretPromise;
 }
 
 export function createCookie(token: string) {
@@ -30,17 +63,18 @@ export function clearCookie() {
 }
 
 export async function createSession(user: UserRecord) {
-  const secret = getSecret();
+  const secret = await getSecret();
   return jwt.sign({ uid: user.id, role: user.role } as TokenPayload, secret, {
     expiresIn: TOKEN_TTL_SECONDS
-  });
+  }) as string;
 }
 
 export async function getSession(event: HandlerEvent): Promise<UserRecord | null> {
   const cookies = parseCookies(event.headers.cookie || event.headers.Cookie);
   if (!cookies[COOKIE_NAME]) return null;
   try {
-    const decoded = jwt.verify(cookies[COOKIE_NAME], getSecret()) as TokenPayload;
+    const secret = await getSecret();
+    const decoded = jwt.verify(cookies[COOKIE_NAME], secret) as TokenPayload;
     const user = await getUserById(decoded.uid);
     if (!user) return null;
     return user;
