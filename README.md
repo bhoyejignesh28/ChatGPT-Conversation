@@ -6,11 +6,11 @@ FilingsCenter is a Netlify-native template and rendering tool for managing busin
 
 1. **Create a Netlify site** and connect this repository (or drag-and-drop).
 2. Under **Site settings → Environment variables** set `JWT_SECRET` to a strong random string.
-3. Deploy. The build command simply echoes and publishes the repository root.
-4. After the first deploy, open `/public/admin.html` and run the one-time **Seed Admin** action.
+3. Deploy. The build command simply echoes and publishes the `public/` directory.
+4. After the first deploy, open `/admin.html` and run the one-time **Seed Admin** action.
 5. Create categories, sizes, and templates. Upload base art, place placeholders, and save.
 6. Create users, toggle active/inactive, rename, or delete as needed.
-7. Users sign in at `/public/user.html`, manage their profile + logo, edit templates, and export PNG renders.
+7. Users sign in at `/user.html`, manage their profile + logo, edit templates, and export PNG renders.
 
 ## Tech Stack
 
