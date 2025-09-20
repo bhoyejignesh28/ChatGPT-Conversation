@@ -1,21 +1,13 @@
 {
-  "name": "filings-center",
+  "name": "filingscenter-admin",
   "version": "1.0.0",
-  "private": true,
   "type": "module",
   "scripts": {
-    "build": "echo Build complete",
-    "format": "prettier --write ."
+    "build": "echo Build ready"
   },
   "dependencies": {
-    "@netlify/blobs": "^6.3.0",
     "bcryptjs": "^2.4.3",
-    "busboy": "^1.6.0",
     "jsonwebtoken": "^9.0.2",
-    "nanoid": "^4.0.2",
-    "zod": "^3.22.4"
-  },
-  "devDependencies": {
-    "prettier": "^3.2.5"
+    "mongodb": "^6.8.0"
   }
 }

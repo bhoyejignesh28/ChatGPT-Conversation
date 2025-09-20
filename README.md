@@ -1,42 +1,71 @@
-# FilingsCenter
+# FilingsCenter Minimal Backend
 
-FilingsCenter is a Netlify-native template and rendering tool for managing business filing artwork. Administrators manage users, categories, sizes, and templates. Users personalize placeholders, preview on-canvas, and export production PNGs, all persisted with Netlify Functions + Netlify Blobs.
+This repository now includes the Netlify Function endpoints required to seed the first admin user, perform logins, and read the current session. Each handler ships with a reusable CORS helper so calls from any origin can complete successfully.
 
-## Deploy
+## Project layout
 
-1. **Create a Netlify site** and connect this repository (or drag-and-drop).
-2. Under **Site settings → Environment variables** set `JWT_SECRET` to a strong random string. (If you skip this, the
-   first request will mint a secret and persist it to Netlify Blobs so you can still sign in, but you should replace it
-   with your own secure value.)
-3. Deploy. The build command simply echoes and publishes the `public/` directory (configured via `netlify.toml`).
-4. After the first deploy, open `/admin.html` and run the one-time **Seed Admin** action.
-5. Create categories, sizes, and templates. Upload base art, place placeholders, and save.
-6. Create users, toggle active/inactive, rename, or delete as needed.
-7. Users sign in at `/user.html`, manage their profile + logo, edit templates, and export PNG renders.
+```
+/netlify.toml
+/package.json
+/netlify/functions/_lib/cors.js
+/netlify/functions/_lib/http.js
+/netlify/functions/_lib/db.js
+/netlify/functions/seed-admin.js
+/netlify/functions/login.js
+/netlify/functions/me.js
+/public              # existing static assets
+```
 
-## Tech Stack
+## Environment variables
 
-- **Frontend:** Vanilla HTML/CSS/JS with modular scripts, dynamic Google Font loading, and canvas rendering.
-- **Backend:** Netlify Functions (Node 20) using TypeScript modules, JWT HttpOnly auth, and bcrypt password hashing.
-- **Storage:** Netlify Blobs for JSON records and binary uploads (templates, logos, exports).
+Configure these in Netlify → **Site settings → Build & deploy → Environment** before deploying:
 
-## Development
+- `MONGODB_URI` – connection string for your MongoDB Atlas cluster.
+- `MONGODB_DB` – optional, defaults to `filingscenter`.
+- `JWT_SECRET` – random string used to sign JSON Web Tokens.
+
+## Deploying on Netlify
+
+1. Create or open your Netlify site and connect this repository.
+2. In **Build settings**, leave the default branch (for example `main`). The build command is `npm i` and the publish directory is `public` as defined in `netlify.toml`.
+3. Add the environment variables listed above.
+4. Trigger a deploy.
+
+## Available functions
+
+All functions are available at `/.netlify/functions/<name>` when deployed.
+
+### POST `seed-admin`
+Creates the very first administrator account. Only works once; subsequent calls return HTTP 409.
+
+Body:
+```json
+{ "email": "admin@example.com", "username": "admin", "password": "YourStrongPassword" }
+```
+
+### POST `login`
+Verifies user credentials and returns a signed JWT token plus basic profile information.
+
+Body:
+```json
+{ "email": "admin@example.com", "password": "YourStrongPassword" }
+```
+
+### GET `me`
+Validates an incoming bearer token and returns the decoded payload when valid.
+
+Header:
+```
+Authorization: Bearer <token-from-login>
+```
+
+## Local testing
+
+Install dependencies and hit the functions with your preferred HTTP client:
 
 ```bash
 npm install
-# run formatting if desired
-npm run format
+netlify dev
 ```
 
-Functions live in `netlify/functions`. Static assets are inside `public/`.
-
-## Environment Variables
-
-See `.env.example` for required configuration. Locally you can use `netlify dev` with the same values.
-
-## Security Notes
-
-- Passwords are hashed with bcrypt; JWTs are issued as HttpOnly cookies.
-- Rate limiting (per-IP, in-memory) applies on seed + login to mitigate brute force.
-- Uploads validate MIME type and size for PNG/JPEG content.
-
+Use the `seed-admin`, `login`, and `me` endpoints as demonstrated above. The `withCORS` helper automatically returns `204` for `OPTIONS` preflight requests and adds the required `Access-Control-*` headers for all responses.

@@ -1,13 +1,7 @@
 [build]
-  base = "."
-  command = "npm run build"
-  publish = "./public"
+  command = "npm i"
+  publish = "public"
 
 [functions]
   node_bundler = "esbuild"
-  external_node_modules = ["@netlify/blobs","bcryptjs","jsonwebtoken","zod","busboy"]
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+  directory = "netlify/functions"
