@@ -27,8 +27,9 @@ export function parseJSONBody<T>(event: HandlerEvent): T | null {
 
 export function getPathSegments(event: HandlerEvent): string[] {
   const path = event.path || '';
-  const parts = path.replace(/^\/\.netlify\/functions\//, '').split('/');
-  return parts.slice(1).filter(Boolean);
+  const cleaned = path.replace(/^\/\.netlify\/functions\//, '');
+  const parts = cleaned.split('/').filter(Boolean);
+  return parts.slice(1);
 }
 
 export function getClientIp(event: HandlerEvent): string {
